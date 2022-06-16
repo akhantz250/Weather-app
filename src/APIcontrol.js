@@ -1,3 +1,5 @@
+import { format, getUnixTime } from 'date-fns';
+
 const APIkey = '1cd7a53a027e50aa2ec7f34c51b6db15';
 let UNITS = 'metric';
 
@@ -21,6 +23,10 @@ async function getWeatherData(city) {
       tempmin: data.main.temp_min,
       tempmax: data.main.temp_max,
       windspeed: data.wind.speed,
+      datetime: getUnixTime(new Date()),
+      timezone: data.timezone,
+      sunrise: data.sys.sunrise,
+      sunset: data.sys.sunset,
     };
     return obj;
   } catch (error) {

@@ -1,5 +1,6 @@
 import { getWeatherData } from './APIcontrol';
-import { capitalize } from './helper';
+import { formatTime, capitalize, isDayTime } from './helper';
+
 const displayController = (function () {
   const form = document.querySelector('#search-form');
   const searchInput = document.querySelector('#search');
@@ -10,16 +11,18 @@ const displayController = (function () {
   const feelsLikeElement = document.querySelector('#feels-like');
   const humidityElement = document.querySelector('#humidity');
   const windSpeedElement = document.querySelector('#wind-speed');
+  const weatherImg = document.querySelector('#weather-icon');
+  const dateTimeElement = document.querySelector('#date-time');
 
   searchBtn.addEventListener('click', async (e) => {
     e.preventDefault();
     const inputVal = searchInput.value;
     if (!inputVal) {
-      alert('no val');
+      alert('Input is blank.');
     } else {
       const weatherData = await getWeatherData(inputVal);
       if (weatherData === null) {
-        alert('cannot find');
+        alert('City not found.');
         form.reset();
         return;
       } else {
@@ -33,13 +36,52 @@ const displayController = (function () {
     viewWeather(weatherData);
   }
   function viewWeather(data) {
-    cityElement.textContent = `${data.cityname}, ${data.country}`;
+    const localDateTime = formatTime(data.datetime, data.timezone);
+    const dayTime = isDayTime(
+      data.datetime,
+      data.sunrise,
+      data.sunset,
+      data.timezone
+    );
+    if (typeof data.country === 'undefined') {
+      cityElement.textContent = `${data.cityname}`;
+    } else {
+      cityElement.textContent = `${data.cityname}, ${data.country}`;
+    }
     weatherElement.textContent = `${capitalize(data.weather)}`;
     tempElement.textContent = `${data.temperature} °C`;
     feelsLikeElement.textContent = `${data.feelslike} °C`;
     humidityElement.textContent = `${data.humidity} %`;
     windSpeedElement.textContent = `${data.windspeed} m/s`;
-    console.log(data.id);
+    dateTimeElement.textContent = localDateTime;
+    weatherImg.src = getWeatherIcon(data.id, dayTime);
+  }
+  function getWeatherIcon(id, day) {
+    const conditionID = parseInt(id);
+    let weather;
+    if (conditionID >= 200 && conditionID < 300) {
+      // weather = 'Thunderstorm';
+      return '../dist/assets/weather icons/storm.png';
+    } else if (conditionID >= 300 && conditionID < 600) {
+      // weather = 'Rain';
+      return '../dist/assets/weather icons/raining.png';
+    } else if (conditionID >= 600 && conditionID < 700) {
+      // weather = 'Snow';
+      return '../dist/assets/weather icons/snowflake.png';
+    } else if (conditionID >= 700 && conditionID < 800) {
+      // weather = 'Atmosphere';
+      return '../dist/assets/weather icons/wind.png';
+    } else if (conditionID > 800 && conditionID < 900) {
+      // weather = 'Cloud';
+      if (day) {
+        return '../dist/assets/weather icons/cloudy-day.png';
+      } else return '../dist/assets/weather icons/cloudy-night.png';
+    } else if (conditionID == 800) {
+      // weather = 'Clear';
+      if (day) {
+        return '../dist/assets/weather icons/sun.png';
+      } else return '../dist/assets/weather icons/moon.png';
+    }
   }
   return { initialise };
 })();
