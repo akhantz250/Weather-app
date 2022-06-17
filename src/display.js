@@ -15,6 +15,7 @@ const displayController = (function () {
   const dateTimeElement = document.querySelector('#date-time');
   const mainElement = document.querySelector('.main');
   const changeUnitBtn = document.querySelector('.unit-btn');
+  const warningElement = document.querySelector('.warning');
   let currentSearch = 'Singapore';
   let units = 'metric';
 
@@ -22,15 +23,15 @@ const displayController = (function () {
     e.preventDefault();
     const inputVal = searchInput.value;
     if (!inputVal) {
-      alert('Input is blank.');
     } else {
-      currentSearch = inputVal;
       const weatherData = await getWeatherData(inputVal, units);
       if (weatherData === null) {
-        alert('City not found.');
+        warningElement.classList.add('show');
         form.reset();
         return;
       } else {
+        currentSearch = inputVal;
+        warningElement.classList.remove('show');
         viewWeather(weatherData);
         form.reset();
       }
@@ -58,7 +59,6 @@ const displayController = (function () {
       data.sunset,
       data.timezone
     );
-    console.log('hi');
     changeBackground(dayTime);
     if (typeof data.country === 'undefined') {
       cityElement.textContent = `${data.cityname}`;
@@ -108,11 +108,9 @@ const displayController = (function () {
     if (day) {
       mainElement.style.backgroundImage =
         "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url('../dist/assets/background.jpg')";
-      console.log(day);
     } else {
       mainElement.style.backgroundImage =
         "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url('../dist/assets/night-background.jpg')";
-      console.log('night');
     }
   }
 
