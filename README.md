@@ -18,3 +18,7 @@ Javascript, CSS, HTML, Webpack, ESLint.
 ### Review
 
 This project was good practice for asynchronous programming in Javascript and the fetch API.
+
+### Image
+
+![alt text](https://raw.githubusercontent.com/akhantz250/odin-weather-app/main/weather-app.png 'Screenshot')
