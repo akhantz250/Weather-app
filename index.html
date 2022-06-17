@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+    <link rel="shortcut icon" href="./assets/weather icons/sun.png" type="image/x-icon">
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./main.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <div class="search-bar">
+        <form id="search-form" action="#" autocomplete="off">
+          <input
+            type="text"
+            placeholder="Search by city"
+            id="search"
+            name="search"
+          />
+          <button id="search-btn" type="submit">
+            <img
+              src="./assets/search_FILL0_wght500_GRAD0_opsz24.png"
+              alt="search"
+            />
+          </button>
+          <div class="warning">City not found</div>
+        </form>
+        
+      </div>
+      <button class="unit-btn"></button>
+    </header>
+    <div class="main">
+      <div class="col">
+        <h1 id="city"></h1>
+        <h3 id="date-time"></h2>
+      <div class="row">
+        <img
+          id="weather-icon"
+          src="./assets/weather icons/cloudy-day.png"
+          alt="image icon"
+        />
+        <div class="info-col">
+          <h1 id="temp"></h2>
+          <h2 id="weather"></h2>
+        </div>
+      </div>
+      <div class="last-row">
+        <div class="extra-col">
+          <img class='icon' src="./assets/icons/thermometer.png" alt="">
+          <div class="line-col">
+            <div>Feels Like</div>
+            <div id="feels-like"></div>
+          </div>
+         
+        </div>
+        <div class="extra-col">
+          <img class='icon' src="./assets/icons/humidity.png" alt="">
+          <div class="line-col">
+            <div>Humidity</div>
+            <div id="humidity"></div></div>
+          </div>
+          
+        <div class="extra-col">
+          <img class='icon' src="./assets/icons/windspeed.png" alt="">
+          <div class="line-col">
+            <div>Windspeed</div>
+            <div id="wind-speed"></div></div>
+          </div>
+          
+      </div>
+      
+      </div>
+      
+
+      
+      
+      
+    </div>
+  </body>
+</html>
