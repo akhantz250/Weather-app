@@ -1,4 +1,14 @@
 import { getWeatherData } from './APIcontrol';
+import dayBG from './assets/background.jpg';
+import nightBG from './assets/night-background.jpg';
+import cloudyDay from './assets/weather icons/cloudy-day.png';
+import cloudyNight from './assets/weather icons/cloudy-night.png';
+import sun from './assets/weather icons/sun.png';
+import moon from './assets/weather icons/moon.png';
+import raining from './assets/weather icons/raining.png';
+import snowfall from './assets/weather icons/snowflake.png';
+import storm from './assets/weather icons/storm.png';
+import wind from './assets/weather icons/wind.png';
 import {
   formatTime,
   capitalize,
@@ -111,36 +121,34 @@ const displayController = (function () {
     let weather;
     if (conditionID >= 200 && conditionID < 300) {
       // weather = 'Thunderstorm';
-      return '../dist/assets/weather icons/storm.png';
+      return storm;
     } else if (conditionID >= 300 && conditionID < 600) {
       // weather = 'Rain';
-      return '../dist/assets/weather icons/raining.png';
+      return raining;
     } else if (conditionID >= 600 && conditionID < 700) {
       // weather = 'Snow';
-      return '../dist/assets/weather icons/snowflake.png';
+      return snowfall;
     } else if (conditionID >= 700 && conditionID < 800) {
       // weather = 'Atmosphere';
-      return '../dist/assets/weather icons/wind.png';
+      return wind;
     } else if (conditionID > 800 && conditionID < 900) {
       // weather = 'Cloud';
       if (day) {
-        return '../dist/assets/weather icons/cloudy-day.png';
-      } else return '../dist/assets/weather icons/cloudy-night.png';
+        return cloudyDay;
+      } else return cloudyNight;
     } else if (conditionID == 800) {
       // weather = 'Clear';
       if (day) {
-        return '../dist/assets/weather icons/sun.png';
-      } else return '../dist/assets/weather icons/moon.png';
+        return sun;
+      } else return moon;
     }
   }
 
   function changeBackground(day) {
     if (day) {
-      mainElement.style.backgroundImage =
-        "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url('../dist/assets/background.jpg')";
+      mainElement.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url(${dayBG})`;
     } else {
-      mainElement.style.backgroundImage =
-        "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url('../dist/assets/night-background.jpg')";
+      mainElement.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url(${nightBG})`;
     }
   }
 
