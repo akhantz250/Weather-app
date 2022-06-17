@@ -5,11 +5,11 @@
 [See live demo](https://akhantz250.github.io/odin-weather-app/)
 
 - Search for the current weather forecast data for a given city from the Openweather API.
-- Toggle data display between metric or imperial units.
-- Weather icons changes for a given weather forecast and time of day derived from sunset and sunrise time.
-- Background changes for time of day.
-- Local date and time is shown.
-- Last location search and selected unit is saved in localstorage.
+- Toggle display between metric or imperial units.
+- Weather icons changes for a given weather forecast and time of day derived from sunset and sunrise time of the location.
+- Background changes according to local time of day.
+- Display local date and time.
+- Last search location and preferred units information are saved in localstorage.
 
 ### Tools
 
