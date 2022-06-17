@@ -13,6 +13,7 @@ const displayController = (function () {
   const windSpeedElement = document.querySelector('#wind-speed');
   const weatherImg = document.querySelector('#weather-icon');
   const dateTimeElement = document.querySelector('#date-time');
+  const mainElement = document.querySelector('.main');
 
   searchBtn.addEventListener('click', async (e) => {
     e.preventDefault();
@@ -43,6 +44,8 @@ const displayController = (function () {
       data.sunset,
       data.timezone
     );
+    console.log('hi');
+    changeBackground(dayTime);
     if (typeof data.country === 'undefined') {
       cityElement.textContent = `${data.cityname}`;
     } else {
@@ -81,6 +84,18 @@ const displayController = (function () {
       if (day) {
         return '../dist/assets/weather icons/sun.png';
       } else return '../dist/assets/weather icons/moon.png';
+    }
+  }
+
+  function changeBackground(day) {
+    if (day) {
+      mainElement.style.backgroundImage =
+        "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url('../dist/assets/background.jpg')";
+      console.log(day);
+    } else {
+      mainElement.style.backgroundImage =
+        "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url('../dist/assets/night-background.jpg')";
+      console.log('night');
     }
   }
   return { initialise };
