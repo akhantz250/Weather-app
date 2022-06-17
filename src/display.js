@@ -14,6 +14,9 @@ const displayController = (function () {
   const weatherImg = document.querySelector('#weather-icon');
   const dateTimeElement = document.querySelector('#date-time');
   const mainElement = document.querySelector('.main');
+  const changeUnitBtn = document.querySelector('.unit-btn');
+  let currentSearch = 'Singapore';
+  let units = 'metric';
 
   searchBtn.addEventListener('click', async (e) => {
     e.preventDefault();
@@ -21,7 +24,8 @@ const displayController = (function () {
     if (!inputVal) {
       alert('Input is blank.');
     } else {
-      const weatherData = await getWeatherData(inputVal);
+      currentSearch = inputVal;
+      const weatherData = await getWeatherData(inputVal, units);
       if (weatherData === null) {
         alert('City not found.');
         form.reset();
@@ -32,8 +36,18 @@ const displayController = (function () {
       }
     }
   });
+  changeUnitBtn.addEventListener('click', async (e) => {
+    changeUnits();
+    if (units === 'metric') {
+      e.target.textContent = 'Metric';
+    } else {
+      e.target.textContent = 'Imperial';
+    }
+    const weatherData = await getWeatherData(currentSearch, units);
+    viewWeather(weatherData);
+  });
   async function initialise() {
-    const weatherData = await getWeatherData('singapore');
+    const weatherData = await getWeatherData(currentSearch, units);
     viewWeather(weatherData);
   }
   function viewWeather(data) {
@@ -52,10 +66,13 @@ const displayController = (function () {
       cityElement.textContent = `${data.cityname}, ${data.country}`;
     }
     weatherElement.textContent = `${capitalize(data.weather)}`;
-    tempElement.textContent = `${data.temperature} °C`;
-    feelsLikeElement.textContent = `${data.feelslike} °C`;
+    tempElement.textContent =
+      units === 'metric' ? `${data.temperature} °C` : `${data.temperature} °F`;
+    feelsLikeElement.textContent =
+      units === 'metric' ? `${data.feelslike} °C` : `${data.feelslike} °F`;
     humidityElement.textContent = `${data.humidity} %`;
-    windSpeedElement.textContent = `${data.windspeed} m/s`;
+    windSpeedElement.textContent =
+      units === 'metric' ? `${data.windspeed} m/s` : `${data.windspeed} mph`;
     dateTimeElement.textContent = localDateTime;
     weatherImg.src = getWeatherIcon(data.id, dayTime);
   }
@@ -96,6 +113,14 @@ const displayController = (function () {
       mainElement.style.backgroundImage =
         "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) ,url('../dist/assets/night-background.jpg')";
       console.log('night');
+    }
+  }
+
+  function changeUnits() {
+    if (units === 'metric') {
+      units = 'imperial';
+    } else {
+      units = 'metric';
     }
   }
   return { initialise };
