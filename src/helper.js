@@ -23,4 +23,22 @@ function getTimeOnly(time, offset) {
   return formatTime(time, offset).slice(-5);
 }
 
-export { capitalize, isDayTime, formatTime, getTimeOnly };
+function convertToF(temp) {
+  const celcius = +temp;
+  const fahrenheit = celcius * (9 / 5) + 32;
+  return +fahrenheit.toFixed(2);
+}
+function convertToMPH(speed) {
+  const meterps = +speed;
+  const mph = meterps * 2.237;
+  return +mph.toFixed(2);
+}
+
+export {
+  capitalize,
+  isDayTime,
+  formatTime,
+  getTimeOnly,
+  convertToF,
+  convertToMPH,
+};

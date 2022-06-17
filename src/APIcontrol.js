@@ -2,10 +2,10 @@ import { format, getUnixTime } from 'date-fns';
 
 const APIkey = '1cd7a53a027e50aa2ec7f34c51b6db15';
 
-async function getWeatherData(city, units) {
+async function getWeatherData(city) {
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=${units}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=metric`
     );
     if (!response.ok) {
       throw new Error('Response not ok');

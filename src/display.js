@@ -1,5 +1,11 @@
 import { getWeatherData } from './APIcontrol';
-import { formatTime, capitalize, isDayTime } from './helper';
+import {
+  formatTime,
+  capitalize,
+  isDayTime,
+  convertToF,
+  convertToMPH,
+} from './helper';
 
 const displayController = (function () {
   const form = document.querySelector('#search-form');
@@ -17,6 +23,7 @@ const displayController = (function () {
   const changeUnitBtn = document.querySelector('.unit-btn');
   const warningElement = document.querySelector('.warning');
   let currentSearch = 'Singapore';
+  let currentWeatherData;
   let units = 'metric';
 
   searchBtn.addEventListener('click', async (e) => {
@@ -24,31 +31,48 @@ const displayController = (function () {
     const inputVal = searchInput.value;
     if (!inputVal) {
     } else {
-      const weatherData = await getWeatherData(inputVal, units);
+      const weatherData = await getWeatherData(inputVal);
       if (weatherData === null) {
         warningElement.classList.add('show');
         form.reset();
         return;
       } else {
         currentSearch = inputVal;
+        currentWeatherData = weatherData;
+        localStorage.setItem('lastSearch', currentSearch);
         warningElement.classList.remove('show');
         viewWeather(weatherData);
         form.reset();
       }
     }
   });
-  changeUnitBtn.addEventListener('click', async (e) => {
+  changeUnitBtn.addEventListener('click', (e) => {
     changeUnits();
     if (units === 'metric') {
       e.target.textContent = 'Metric';
+      localStorage.setItem('units', 'metric');
     } else {
       e.target.textContent = 'Imperial';
+      localStorage.setItem('units', 'imperial');
     }
-    const weatherData = await getWeatherData(currentSearch, units);
-    viewWeather(weatherData);
+    viewWeather(currentWeatherData);
   });
   async function initialise() {
-    const weatherData = await getWeatherData(currentSearch, units);
+    if (localStorage.getItem('lastSearch') !== null) {
+      currentSearch = localStorage.getItem('lastSearch');
+    }
+    if (localStorage.getItem('units') !== null) {
+      if (localStorage.getItem('units') === 'imperial') {
+        changeUnits();
+        changeUnitBtn.textContent = 'Imperial';
+      } else {
+        changeUnitBtn.textContent = 'Metric';
+      }
+    } else {
+      changeUnitBtn.textContent = 'Metric';
+    }
+    const weatherData = await getWeatherData(currentSearch);
+    currentWeatherData = weatherData;
     viewWeather(weatherData);
   }
   function viewWeather(data) {
@@ -67,12 +91,18 @@ const displayController = (function () {
     }
     weatherElement.textContent = `${capitalize(data.weather)}`;
     tempElement.textContent =
-      units === 'metric' ? `${data.temperature} °C` : `${data.temperature} °F`;
+      units === 'metric'
+        ? `${data.temperature} °C`
+        : `${convertToF(data.temperature)} °F`;
     feelsLikeElement.textContent =
-      units === 'metric' ? `${data.feelslike} °C` : `${data.feelslike} °F`;
+      units === 'metric'
+        ? `${data.feelslike} °C`
+        : `${convertToF(data.feelslike)} °F`;
     humidityElement.textContent = `${data.humidity} %`;
     windSpeedElement.textContent =
-      units === 'metric' ? `${data.windspeed} m/s` : `${data.windspeed} mph`;
+      units === 'metric'
+        ? `${data.windspeed} m/s`
+        : `${convertToMPH(data.windspeed)} mph`;
     dateTimeElement.textContent = localDateTime;
     weatherImg.src = getWeatherIcon(data.id, dayTime);
   }
