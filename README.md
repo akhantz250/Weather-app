@@ -1,6 +1,7 @@
 # Weather App
 
-[Live demo](https://akhantz250.github.io/Weather-app/)  
+[Live demo](https://akhantz250.github.io/Weather-app/)
+
 This project is an assignment from the [Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-weather-app) curriculum.
 
 ### Features
