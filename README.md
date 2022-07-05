@@ -1,8 +1,9 @@
 # Weather App
 
-### Features
+[Live demo](https://akhantz250.github.io/Weather-app/)  
+This project is an assignment from the [Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-weather-app) curriculum.
 
-[See live demo](https://akhantz250.github.io/odin-weather-app/)
+### Features
 
 - Search for the current weather forecast data for a given city from the Openweather API.
 - Toggle display between metric or imperial units.
